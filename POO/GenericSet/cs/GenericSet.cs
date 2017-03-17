@@ -31,9 +31,7 @@ namespace cs {
         }
 
         public int Cardinal {
-            get {
-                return elements.Count;
-            }
+            get => elements.Count;
         }
 
         // Reuniunea a doua multimi. A = {1,2}, B = {1,4,5}, A + B = {1,2,4,5}
@@ -76,28 +74,23 @@ namespace cs {
         }
         
         // Incluziune stricta
-        public static bool operator <(GenericSet<T> first, GenericSet<T> second) {
-            return first.elements.Count < second.elements.Count && first <= second;
-        }
+        public static bool operator <(GenericSet<T> first, GenericSet<T> second) =>
+            first.elements.Count < second.elements.Count && first <= second;
         
         // Incluziune stricta
-        public static bool operator >(GenericSet<T> first, GenericSet<T> second) {
-            return first.elements.Count > second.elements.Count && first >= second;
-        }
+        public static bool operator >(GenericSet<T> first, GenericSet<T> second) =>
+            first.elements.Count > second.elements.Count && first >= second;
 
         // Incluziune. A = {1,2}, B = {1,2,3,4}. Atunci B >= A
-        public static bool operator >=(GenericSet<T> first, GenericSet<T> second) {
-            return second <= first;            
-        }
+        public static bool operator >=(GenericSet<T> first, GenericSet<T> second) =>
+            second <= first;            
 
         // Egalitatea. Elementele nu trebuie sa fie in aceeasi ordine.
-        public static bool operator ==(GenericSet<T> first, GenericSet<T> second) {
-            return first <= second && second <= first;
-        }
+        public static bool operator ==(GenericSet<T> first, GenericSet<T> second) =>
+            first <= second && second <= first;
 
-        public static bool operator !=(GenericSet<T> first, GenericSet<T> second) {
-            return !(first == second);
-        }
+        public static bool operator !=(GenericSet<T> first, GenericSet<T> second) =>
+            !(first == second);
 
         // override object.Equals
         public override bool Equals (object obj) {
@@ -110,9 +103,8 @@ namespace cs {
         }
         
         // override object.GetHashCode
-        public override int GetHashCode() {
-            return elements.GetHashCode();
-        }
+        public override int GetHashCode() =>
+            elements.GetHashCode();
 
         // override object.ToString
         public override string ToString() {
