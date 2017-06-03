@@ -98,14 +98,27 @@ void GenericSet<ItemType>::operator <<(ItemType x) {
 
 template <class ItemType>
 bool GenericSet<ItemType>::operator >>(ItemType x) {
+    bool retval = false;
     for (int i = 0; i < len; i++) {
         if (elements[i] == x) {
             for (int j = i; j < len - 1; j++) elements[j] = elements[j+1];
             len--;
-            return true;
+            retval = true;
+            break;
         }
     }
-    return false;
+    if (len < cap - 20) {
+        ItemType * smaller;
+        smaller = new ItemType[cap - 10];
+        for (int i = 0; i < len; i++) {
+            smaller[i] = elements[i];
+        }
+        cap -= 10;
+        ItemType * aux = elements;
+        elements = smaller;
+        delete[] aux;
+    }
+    return retval;
 }
 
 template <class ItemType>
