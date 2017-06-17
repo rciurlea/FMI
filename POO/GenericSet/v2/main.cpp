@@ -1,12 +1,25 @@
+/*******************************************************************************
+POO - Proiectul 7
+CIURLEA Radu, Anul I, ID, <raduciurlea@gmail.com>
+
+Se implementeaza o clasa generica pentru multimi finite de elemente de un tip
+neprecizat. Am presupus valabila o singura preconditie pentru tipul elementelor:
+sunt comparabile in asa fel incat sa poata fi sortate.
+
+Ideea de implementare: elementele sunt tinute intr-un vector alocat dinamic. Pe
+masura ce se insereaza elemente vectorul va fi realocat/mutat in asa fel incat
+sa fie mereu loc pentru noi elemente.
+*******************************************************************************/
+
 #include <iostream>
 #include <cassert>
 using namespace std;
 
 template <class ItemType>
 class GenericSet {
-    ItemType *elements;
-    int len;
-    int cap;
+    ItemType *elements; // pointer catre vectorul de elemente
+    int len;            // numarul de elemente din multime (lungimea)
+    int cap;            // capacitatea vectorului
 
     bool contains(ItemType x);
     template <typename T>
@@ -32,6 +45,7 @@ public:
     GenericSet<ItemType> operator - (GenericSet<ItemType>& other);
 };
 
+// Constructor simplu. Initializez o multime vida cu capacitate initiala 1
 template <class ItemType>
 GenericSet<ItemType>::GenericSet() {
     len = 0;
@@ -39,6 +53,8 @@ GenericSet<ItemType>::GenericSet() {
     elements = new ItemType[1];
 }
 
+// Constructor de conversie, imi permite assignment de la tip catre multime,
+// de exemplu A = 1 inseamna ca A = {1}
 template <class ItemType>
 GenericSet<ItemType>::GenericSet(ItemType x) {
     len = 0;
@@ -47,6 +63,8 @@ GenericSet<ItemType>::GenericSet(ItemType x) {
     *this << x;
 }
 
+// Constructor dintr-un array de elemente. Permite initializarea unuei multimi
+// pornind de la un vector de elemente de lungime specificata
 template <class ItemType>
 GenericSet<ItemType>::GenericSet(ItemType arr[], int n) {
     len = 0;
@@ -57,16 +75,19 @@ GenericSet<ItemType>::GenericSet(ItemType arr[], int n) {
     }
 }
 
+// Destructor simplu, dealoca spatiul ocupat de vectorul de elemente
 template <class ItemType>
 GenericSet<ItemType>::~GenericSet() {
     delete [] elements;
 }
 
+// Metoda ajutatoare, returneaza cardinalul multimii
 template <class ItemType>
 int GenericSet<ItemType>::size() const {
     return len;
 }
 
+// Metoda ajutatoare, verifica daca un element apartine multimii
 template <class ItemType>
 bool GenericSet<ItemType>::contains(ItemType x) {
     for (int i = 0; i < size(); i++)
@@ -74,21 +95,25 @@ bool GenericSet<ItemType>::contains(ItemType x) {
     return false;
 }
 
+// Overload operator <<, permite adaugarea de elemente in multime. In cazul
+// in care elementul este deja in multime nu fac nimic.
 template <class ItemType>
 void GenericSet<ItemType>::operator <<(ItemType x) {
     if (this->contains(x)) return;  // nu fac nimic daca e deja in multime
     if (len == cap) {               // trebuie sa aloc mai mult spatiu
-        cap *= 2;
+        cap *= 2;                   // dublez capacitatea
         ItemType * bigger = new ItemType[cap];
+        // mut elementele in noul vector
         for (int i = 0; i < len; i++) {
             bigger[i] = elements[i];
         }
+        // eliberez vechiul vector
         ItemType * aux;
         aux = elements;
         elements = bigger;
         delete [] aux;
     }
-    // inserez elementul nou pe pozitia corecta
+    // inserez elementul nou pe pozitia corecta, pastrand ordinea
     int pos = 0;
     while (elements[pos] < x && pos < len) pos++;
     for (int i = len; i > pos; i--) elements[i] = elements[i-1];
@@ -96,31 +121,24 @@ void GenericSet<ItemType>::operator <<(ItemType x) {
     len++;
 }
 
+// Overload operator >>, scoate un element din multime. Returneaza true daca
+// elementul a fost gasit si eliminat si false altfel.
 template <class ItemType>
 bool GenericSet<ItemType>::operator >>(ItemType x) {
-    bool retval = false;
     for (int i = 0; i < len; i++) {
         if (elements[i] == x) {
+            // cand am gasit elementul cautat le deplasez pe celelalte la stanga
+            // si decrementez cardinalul
             for (int j = i; j < len - 1; j++) elements[j] = elements[j+1];
             len--;
-            retval = true;
-            break;
+            return true;
         }
     }
-    if (len < cap - 20) {
-        ItemType * smaller;
-        smaller = new ItemType[cap - 10];
-        for (int i = 0; i < len; i++) {
-            smaller[i] = elements[i];
-        }
-        cap -= 10;
-        ItemType * aux = elements;
-        elements = smaller;
-        delete[] aux;
-    }
-    return retval;
+    return false;
 }
 
+// Overload operator comparatie, va fi folosit pentru implementarea tuturor
+// celorlalti operatori de comparatie (incluziune).
 template <class ItemType>
 bool GenericSet<ItemType>::operator <=(GenericSet<ItemType>& other) {
     if (size() > other.size()) return false;
@@ -129,21 +147,25 @@ bool GenericSet<ItemType>::operator <=(GenericSet<ItemType>& other) {
     return true;
 }
 
+// Incluziune stricta
 template <class ItemType>
 bool GenericSet<ItemType>::operator <(GenericSet<ItemType>& other) {
     return *this <= other && this->size() < other.size();
 }
 
+// Incluzine in sensul celalalt
 template <class ItemType>
 bool GenericSet<ItemType>::operator >=(GenericSet<ItemType>& other) {
     return other <= *this;
 }
 
+// Incluzine stricta in sensul celalalt
 template <class ItemType>
 bool GenericSet<ItemType>::operator >(GenericSet<ItemType>& other) {
     return other < *this;
 }
 
+// Operator de comparatie
 template <class ItemType>
 bool GenericSet<ItemType>::operator ==(GenericSet<ItemType>& other) {
     if (size() != other.size()) return false;
@@ -152,6 +174,7 @@ bool GenericSet<ItemType>::operator ==(GenericSet<ItemType>& other) {
     return true;
 }
 
+// Constructor de copiere
 template <class ItemType>
 GenericSet<ItemType>& GenericSet<ItemType>::operator =(const GenericSet<ItemType>& other) {
     if (this != &other) {
@@ -164,6 +187,7 @@ GenericSet<ItemType>& GenericSet<ItemType>::operator =(const GenericSet<ItemType
     return *this;
 }
 
+// Overload operator adunare -- face reuniunea
 template <class ItemType>
 GenericSet<ItemType> GenericSet<ItemType>::operator +(GenericSet<ItemType>& other) {
     GenericSet<ItemType> u;
@@ -172,6 +196,8 @@ GenericSet<ItemType> GenericSet<ItemType>::operator +(GenericSet<ItemType>& othe
     return u;
 }
 
+
+// Overload operator *, face intersectia
 template <class ItemType>
 GenericSet<ItemType> GenericSet<ItemType>::operator *(GenericSet<ItemType>& other) {
     GenericSet<ItemType> intersection;
@@ -180,6 +206,7 @@ GenericSet<ItemType> GenericSet<ItemType>::operator *(GenericSet<ItemType>& othe
     return intersection;
 }
 
+// Overload operator -, realizeaza diferenta multimilor
 template <class ItemType>
 GenericSet<ItemType> GenericSet<ItemType>::operator -(GenericSet<ItemType>& other) {
     GenericSet<ItemType> diff;
@@ -188,7 +215,7 @@ GenericSet<ItemType> GenericSet<ItemType>::operator -(GenericSet<ItemType>& othe
     return diff;
 }
 
-
+// Metoda ajutatoare pentru printare
 template <class ItemType>
 void GenericSet<ItemType>::print() {
     cout << "{";
@@ -199,6 +226,10 @@ void GenericSet<ItemType>::print() {
     cout << "}\n";
 }
 
+
+// Overload de operator << din iostream, pentru a putea folosi multimile cu
+// cout. E friend function (a se vedea declaratia) pentru a putea accesa
+// membrii multimii.
 template <typename ItemType>
 ostream& operator<<(ostream& strm, const GenericSet<ItemType> &set) {
     strm << "{";
@@ -211,6 +242,10 @@ ostream& operator<<(ostream& strm, const GenericSet<ItemType> &set) {
 }
 
 // TESTE ///////////////////////////////////////////////////////////////////////
+
+// Testele sunt auto-documentate. Se printeaza datele de intrare si rezultatul
+// asteptat pentru fiecare operatie. Se verifica ca rezultatul este cel asteptat
+// folosind assert.
 
 void test_constructors() {
     cout << "Test contructori:\n";
