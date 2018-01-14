@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Snake!</title>
+    <link href="https://fonts.googleapis.com/css?family=Fugaz+One" rel="stylesheet">
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="game-container">
+      <div class="header">
+        <div class="score" id='score-container'>
+          0
+        </div>
+        <div class="title">
+          ~ SNAKE ~
+        </div>
+        <div class="speed" id='level-container'>
+          Level 4
+        </div>
+      </div>
+      <canvas id="canv" width="600" height="600"></canvas>
+    </div>
+    <div id="game-over" class="popup">
+      GAME OVER!
+      <button onclick="App.Game.restart()">Restart</button>
+    </div>
+  </body>
+  <script src="board.js"></script>
+  <script src="snake.js"></script>
+  <script src="game.js"></script>
+  <script src="script.js"></script>
+</html>
