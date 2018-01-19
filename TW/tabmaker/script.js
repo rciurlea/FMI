@@ -1,30 +1,21 @@
-window.onload = () => {
-  document.addEventListener("mouseover", e => {
-    if (e.target.classList.contains("tab")) {
-      let tabs = document.getElementsByClassName('tab');
-      for (let i = 0; i < tabs.length; i++) {
-        if (tabs[i] !== e.target)
-          tabs[i].classList.remove('tab-hovering');
-        else
-          tabs[i].classList.add('tab-hovering');
-      }
-    } else {
-      let tabs = document.getElementsByClassName('tab');
-      for (let i = 0; i < tabs.length; i++) {
-        tabs[i].classList.remove('tab-hovering');
-      }
-    }
+$(() => {
+  $(document).on('mouseenter', '.tab', e => {
+    $(e.target).addClass('tab-hovering');
   });
 
-  document.addEventListener("click", e => {
-    if (e.target.classList.contains("tab")) {
-      let tabs = document.getElementsByClassName('tab');
-      for (let i = 0; i < tabs.length; i++) {
-        if (tabs[i] !== e.target)
-          tabs[i].classList.remove('tab-selected');
-        else
-          tabs[i].classList.add('tab-selected');
-      }
-    }
+  $(document).on('mouseleave', '.tab', e => {
+    $(e.target).removeClass('tab-hovering');
   });
-};
+
+  $(document).on('click', '.tab', e => {
+    let idx = $(e.target).index();
+    $(e.target).addClass('tab-selected');
+    $(e.target).siblings().removeClass('tab-selected');
+    $(e.target).parent().parent().children('.tab-window').children().eq(idx).show();
+    $(e.target).parent().parent().children('.tab-window').children().not(`:eq(${idx})`).hide();
+  });
+
+  $('.tab-bar .tab').first().addClass('tab-selected');
+  $('.tab-window .tab-content').first().show();
+  $('.tab-window .tab-content').not(':eq(0)').hide();
+});
