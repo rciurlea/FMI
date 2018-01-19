@@ -1,0 +1,24 @@
+.tab-bar {
+  display: flex;
+  border-bottom: 3px solid #5473a5;
+}
+
+.tab {
+  background: #ddd;
+  padding: 10px 30px;
+  margin: 0px 2px;
+  border-top: 2px solid #5473a5;
+  border-left: 2px solid #5473a5;
+  border-right: 2px solid #5473a5;
+  border-radius: 10px 10px 0px 0px;
+}
+
+.tab-hovering {
+  background: #eee;
+  cursor: pointer;
+}
+
+.tab-selected {
+  background: green;
+  cursor: auto;
+}
