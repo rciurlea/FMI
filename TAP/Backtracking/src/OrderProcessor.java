@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Formatter;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -56,9 +57,14 @@ public class OrderProcessor {
 		ArrayList<String> initial = new ArrayList<String>();
 		Split(initial, 10);
 		
+		Formatter f = new Formatter(out);
+		int i = 0;
 		for (String p: products) {
-			System.out.printf("%s x %d\n", p, order.get(p));
+			System.out.printf("%s x %d -> %s\n", p, order.get(p), bestSplit.get(i));
+			f.format("%s x %d -> %s\n", p, order.get(p), bestSplit.get(i));
+			i++;
 		}
+		f.close();
 	}
 	
 	private void Split(ArrayList<String> partial, int maxFragments) {
