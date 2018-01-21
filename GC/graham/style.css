@@ -1,0 +1,17 @@
+body {
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+#toolbar-container {
+  background: red;
+  height: 100px;
+  /*flex-grow: 1;*/
+}
+
+#canvas-container {
+  background: #000;
+  flex-grow: 1;
+}
