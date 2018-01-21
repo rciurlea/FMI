@@ -3,18 +3,63 @@
   <head>
     <meta charset="utf-8">
     <title>Graham's Scan</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   </head>
   <body>
     <div id="toolbar-container">
-      
+      <div class="banner">Graham's<br>Scan</div>
+      <div class="middle-buttons">
+        <button class="btn btn-success" id="place-dots">
+          <i class="fa fa-bullseye" aria-hidden="true"></i>
+        </button>
+        &nbsp;
+        <button class="btn btn-warning" id="erase-dots">
+          <i class="fa fa-eraser" aria-hidden="true"></i>
+        </button>
+        &nbsp;
+        <button class="btn btn-danger" id="wipe-everything">
+          <i class="fa fa-trash" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div class="right-buttons">
+        <button class="btn btn-primary">
+          <i class="fa fa-backward" aria-hidden="true"></i>
+        </button>
+        &nbsp;
+        <button class="btn btn-primary" id="start-playback">
+          <i class="fa fa-play" aria-hidden="true"></i>
+        </button>
+        &nbsp;
+        <button class="btn btn-primary">
+          <i class="fa fa-forward" aria-hidden="true"></i>
+        </button>
+        &nbsp;
+        <div class="btn-group">
+          <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            50ms
+          </button>
+          <div class="dropdown-menu dropdown-menu-right">
+            <a class="dropdown-item" href="#">100ms</a>
+            <a class="dropdown-item" href="#">200ms</a>
+            <a class="dropdown-item" href="#">500ms</a>
+            <a class="dropdown-item" href="#">1000ms</a>
+          </div>
+        </div>
+      </div>
     </div>
     <div id="canvas-container">
       <canvas id="canv" width="800" height="600"></canvas>
     </div>
     <script src="canvas.js" charset="utf-8"></script>
     <script src="stage.js" charset="utf-8"></script>
+    <script src="solver.js" charset="utf-8"></script>
     <script src="main.js" charset="utf-8"></script>
   </body>
 </html>

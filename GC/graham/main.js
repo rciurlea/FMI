@@ -10,5 +10,8 @@ $(() => {
     App.Stage.addPoint(e.originalEvent.offsetX, e.originalEvent.offsetY);
   });
 
+  $('#start-playback').click(e => {
+    App.Stage.runAnimation();
+  });
 
 });

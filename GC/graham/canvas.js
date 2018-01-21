@@ -14,7 +14,7 @@ App.Canvas = {
   refit() {
     let canvas = document.getElementById('canv');
     canvas.width = $('#canvas-container').width();
-    canvas.height = $('#canvas-container').height() - 4;
+    canvas.height = $('#canvas-container').height() - 7;
   },
 
   drawPoint(x, y) {
