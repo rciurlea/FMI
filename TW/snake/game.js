@@ -8,6 +8,7 @@ App.Game = {
   score: 0,
   level: 1,
 
+  // Initializarea jocului
   init(board, snake) {
     this.board = board;
     this.snake = snake;
@@ -19,6 +20,7 @@ App.Game = {
     this.displayLevel();
   },
 
+  // Pornim jocul
   run() {
       this.createFood();
       this.interval = setInterval(() => this.step(), this.period);
@@ -45,6 +47,7 @@ App.Game = {
     clearInterval(this.interval);
   },
 
+  // Pasul de animatie
   step() {
     if ((this.direction !== 'u' || this.wantedDirection !=='d') &&
         (this.direction !== 'd' || this.wantedDirection !=='u') &&
@@ -52,11 +55,14 @@ App.Game = {
         (this.direction !== 'r' || this.wantedDirection !=='l')) {
           this.direction = this.wantedDirection;
         }
+    // Sarpele face un pas. Daca a murit incheiem jocul aici
     const dead = this.snake.step(this.direction);
     if (dead) {
       this.stop();
       this.gameOver(true);
     }
+    // Verificam daca sarpele a mancat si ajustam scorul si viteza jocului
+    // corespunzator
     if (this.snake.hasCell(this.food.x, this.food.y)) {
       this.snake.justAte = true;
       this.score += this.level;
@@ -66,6 +72,9 @@ App.Game = {
     }
   },
 
+  // La fiecare bucata de mancare crestem viteza jocului, scazand perioada
+  // pasului de animatie la 97.5% din cea anterioara. Jocul devine exponential
+  // mai rapid
   increaseSpeed() {
     clearInterval(this.interval);
     this.period *= 0.975;
@@ -74,6 +83,7 @@ App.Game = {
     this.interval = setInterval(() => this.step(), this.period);
   },
 
+  // Generam o bucata de mancare
   createFood() {
     const food = {};
     do {
@@ -84,6 +94,7 @@ App.Game = {
     this.board.setPixel(food.x, food.y, '#ff3333');
   },
 
+  // handler de tastatura, pentru viraje
   setKeyboardHandler() {
     document.addEventListener('keydown', event => {
       const keyName = event.key;
@@ -105,6 +116,7 @@ App.Game = {
     });
   },
 
+  // afisam sau ascundem fereastra game over
   gameOver(show) {
     const popup = document.getElementById('game-over');
     if (show)
@@ -113,11 +125,13 @@ App.Game = {
       popup.style.visibility = 'hidden';
   },
 
+  // afisam scorul
   displayScore() {
     const scoreContainer = document.getElementById('score-container');
     scoreContainer.innerHTML = this.score;
   },
 
+  // afisam nivelul
   displayLevel() {
     const scoreContainer = document.getElementById('level-container');
     scoreContainer.innerHTML = `Level ${this.level}`;
