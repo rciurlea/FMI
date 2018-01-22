@@ -12,9 +12,15 @@ App.Canvas = {
   },
 
   refit() {
-    let canvas = document.getElementById('canv');
-    canvas.width = $('#canvas-container').width();
-    canvas.height = $('#canvas-container').height() - 7;
+    const canvas = document.getElementById('canv');
+    const targetWidth = $('#canvas-container').width();
+    const targetHeight = $('#canvas-container').height() - 7;
+    canvas.width = window.devicePixelRatio * targetWidth;
+    canvas.height = window.devicePixelRatio * targetHeight;
+    canvas.style.width = targetWidth + "px";
+    canvas.style.height = targetHeight + "px";
+    const ctx = canvas.getContext('2d');
+    ctx.scale(window.devicePixelRatio,window.devicePixelRatio);
   },
 
   drawPoint(x, y) {
