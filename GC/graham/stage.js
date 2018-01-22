@@ -2,6 +2,11 @@ var App = App || {};
 
 App.Stage = {
   init(canvas) {
+    this.period = 200;
+    this.playing = false;
+    this.frames = null;
+    this.currentFrame = 0;
+    this.interval = null;
     this.canvas = canvas;
     this.clear();
   },
@@ -10,6 +15,12 @@ App.Stage = {
     this.canvas.clear();
     this.points = [];
     this.lines = [];
+  },
+
+  reset() {
+    if (confirm("Wipe everything?")) {
+      this.clear();
+    }
   },
 
   getPoints() {
@@ -26,6 +37,17 @@ App.Stage = {
     });
   },
 
+  resetAnimation() {
+    this.playing = false;
+    this.lines = [];
+    this.showPlayButton();
+    if (this.interval !== null) {
+      clearInterval(this.interval);
+    }
+    this.frames = App.Solver.convexHull(this.getPoints());
+    this.currentFrame = 0;
+  },
+
   addPoint(x, y) {
     const minDistance = 10;
     let collision = false;
@@ -34,6 +56,7 @@ App.Stage = {
     });
     if (!collision) {
       this.points.push({x, y});
+      this.resetAnimation();
       this.render();
     }
     return collision;
@@ -52,18 +75,80 @@ App.Stage = {
     this.render()
   },
 
-  runAnimation() {
-    let frames = App.Solver.convexHull(this.getPoints());
-    let currentFrame = 0;
-    let handle = setInterval(() => {
-      console.log("tick!", currentFrame);
-      if (currentFrame < frames.length) {
-        this.drawPolyLine(frames[currentFrame]);
-        currentFrame++;
-      } else {
-        clearInterval(handle);
+  step() {
+    if (this.currentFrame < this.frames.length) {
+      console.log("step!");
+      this.drawPolyLine(this.frames[this.currentFrame]);
+      this.currentFrame++;
+    } else {
+      if (this.interval !== null) {
+        clearInterval(this.interval);
+        this.interval = null;
+        this.playing = false;
+        this.showPlayButton();
       }
-    }, 300);
+    }
   },
 
+  manualStep(forward = true) {
+    if (this.frames !== null) {
+      if (this.currentFrame >= 0 && this.currentFrame < this.frames.length)
+        this.drawPolyLine(this.frames[this.currentFrame]);
+      if (forward) {
+        if (this.currentFrame < this.frames.length - 1) this.currentFrame++;
+      } else {
+        if (this.currentFrame > 0) this.currentFrame--;
+      }
+    }
+  },
+
+  runAnimation() {
+    if (!this.playing) {
+      if (this.frames !== null && this.frames.length > 0) {
+        this.playing = true;
+        this.showPauseButton();
+        this.interval = setInterval(() => { this.step(); }, this.period);
+      }
+    } else {
+      this.playing = false;
+      this.showPlayButton();
+      clearInterval(this.interval);
+      this.interval = null;
+    }
+  },
+
+  stopAnimation() {
+    if (this.playing) {
+      this.playing = false;
+      clearInterval(this.interval);
+      this.interval = null;
+      this.showPlayButton();
+    }
+  },
+
+  gotoFirst() {
+    this.stopAnimation();
+    this.currentFrame = 0;
+    this.drawPolyLine(this.frames[this.currentFrame]);
+  },
+
+  gotoLast() {
+    this.stopAnimation();
+    this.currentFrame = this.frames.length - 1;
+    this.drawPolyLine(this.frames[this.currentFrame]);
+  },
+
+  setFPS(fps) {
+    this.period = 1000 / fps;
+  },
+
+  showPauseButton() {
+    $('#start-playback i').removeClass('fa-play');
+    $('#start-playback i').addClass('fa-pause');
+  },
+
+  showPlayButton() {
+    $('#start-playback i').removeClass('fa-pause');
+    $('#start-playback i').addClass('fa-play');
+  },
 };

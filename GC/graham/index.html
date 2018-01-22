@@ -29,7 +29,11 @@
         </button>
       </div>
       <div class="right-buttons">
-        <button class="btn btn-primary">
+        <button class="btn btn-primary" id="goto-first">
+          <i class="fa fa-fast-backward" aria-hidden="true"></i>
+        </button>
+        &nbsp;
+        <button class="btn btn-primary" id="step-backward">
           <i class="fa fa-backward" aria-hidden="true"></i>
         </button>
         &nbsp;
@@ -37,19 +41,25 @@
           <i class="fa fa-play" aria-hidden="true"></i>
         </button>
         &nbsp;
-        <button class="btn btn-primary">
+        <button class="btn btn-primary" id="step-forward">
           <i class="fa fa-forward" aria-hidden="true"></i>
         </button>
         &nbsp;
+        <button class="btn btn-primary" id="goto-last">
+          <i class="fa fa-fast-forward" aria-hidden="true"></i>
+        </button>
+        &nbsp;
         <div class="btn-group">
-          <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            50ms
+          <button type="button" id="fps-display" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            5FPS
           </button>
           <div class="dropdown-menu dropdown-menu-right">
-            <a class="dropdown-item" href="#">100ms</a>
-            <a class="dropdown-item" href="#">200ms</a>
-            <a class="dropdown-item" href="#">500ms</a>
-            <a class="dropdown-item" href="#">1000ms</a>
+            <a class="dropdown-item fps" href="#">1FPS</a>
+            <a class="dropdown-item fps" href="#">5FPS</a>
+            <a class="dropdown-item fps" href="#">10FPS</a>
+            <a class="dropdown-item fps" href="#">20FPS</a>
+            <a class="dropdown-item fps" href="#">50FPS</a>
+            <a class="dropdown-item fps" href="#">100FPS</a>
           </div>
         </div>
       </div>
