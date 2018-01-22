@@ -20,7 +20,14 @@ body {
 #canvas-container {
   background: #000;
   flex-grow: 1;
+}
+
+.cursor-crosshair {
   cursor: crosshair;
+}
+
+.cursor-eraser {
+  cursor: url(eraser.png) 8 8, auto;
 }
 
 .banner {
@@ -44,3 +51,12 @@ body {
 .right-buttons {
 
 }
+
+/* .popover-body {
+  background: #FFC107;
+  border-radius: 5px;
+}
+
+.arrow:after {
+  background: red;
+} */

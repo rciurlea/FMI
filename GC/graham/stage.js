@@ -2,6 +2,7 @@ var App = App || {};
 
 App.Stage = {
   init(canvas) {
+    this.editmode = "add";
     this.period = 200;
     this.playing = false;
     this.frames = null;
@@ -9,6 +10,28 @@ App.Stage = {
     this.interval = null;
     this.canvas = canvas;
     this.clear();
+  },
+
+  handleClick(x, y) {
+    if (!this.playing) {
+      if (this.editmode === 'add') {
+        this.addPoint(x, y);
+      } else {
+        this.deletePoint(x, y);
+      }      
+    }
+  },
+
+  modeAdd() {
+    this.editmode = "add";
+    $('#canvas-container').addClass('cursor-crosshair');
+    $('#canvas-container').removeClass('cursor-eraser');
+  },
+
+  modeDelete() {
+    this.editmode = "delete";
+    $('#canvas-container').addClass('cursor-eraser');
+    $('#canvas-container').removeClass('cursor-crosshair');
   },
 
   clear() {
@@ -60,6 +83,13 @@ App.Stage = {
       this.render();
     }
     return collision;
+  },
+
+  deletePoint(x, y) {
+    const eraserRadius = 5;
+    this.points = this.points.filter(p => Math.sqrt((p.x - x) * (p.x - x) + (p.y - y) * (p.y - y)) > eraserRadius);
+    this.resetAnimation();
+    this.render();
   },
 
   drawPolyLine(vertices) {

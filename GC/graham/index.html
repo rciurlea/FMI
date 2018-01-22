@@ -6,46 +6,46 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
   </head>
   <body>
     <div id="toolbar-container">
       <div class="banner">Graham's<br>Scan</div>
       <div class="middle-buttons">
-        <button class="btn btn-success" id="place-dots">
+        <button class="btn btn-success" id="place-dots" data-toggle="tooltip" data-delay="500" data-html="true" title="Add Points (<strong>A</strong>)">
           <i class="fa fa-bullseye" aria-hidden="true"></i>
         </button>
         &nbsp;
-        <button class="btn btn-warning" id="erase-dots">
+        <button class="btn btn-warning" id="erase-dots" data-toggle="tooltip" data-delay="500" data-html="true" title="Delete Points (<strong>D</strong>)">
           <i class="fa fa-eraser" aria-hidden="true"></i>
         </button>
         &nbsp;
-        <button class="btn btn-danger" id="wipe-everything">
+        <button class="btn btn-danger" id="wipe-everything" data-toggle="tooltip" data-delay="500" data-html="true" title="Clear Stage">
           <i class="fa fa-trash" aria-hidden="true"></i>
         </button>
       </div>
       <div class="right-buttons">
-        <button class="btn btn-primary" id="goto-first">
+        <button class="btn btn-primary" id="goto-first" data-toggle="tooltip" data-delay="500" data-html="true" title="Go to Start (<strong>S</strong>)">
           <i class="fa fa-fast-backward" aria-hidden="true"></i>
         </button>
         &nbsp;
-        <button class="btn btn-primary" id="step-backward">
+        <button class="btn btn-primary" id="step-backward" data-toggle="tooltip" data-delay="500" data-html="true" title="Previous Step (<strong>P</strong>)">
           <i class="fa fa-backward" aria-hidden="true"></i>
         </button>
         &nbsp;
-        <button class="btn btn-primary" id="start-playback">
+        <button class="btn btn-primary" id="start-playback" data-toggle="tooltip" data-delay="500" data-html="true" title="Play (<strong>SPACE</strong>)">
           <i class="fa fa-play" aria-hidden="true"></i>
         </button>
         &nbsp;
-        <button class="btn btn-primary" id="step-forward">
+        <button class="btn btn-primary" id="step-forward" data-toggle="tooltip" data-delay="500" data-html="true" title="Next Step (<strong>N</strong>)">
           <i class="fa fa-forward" aria-hidden="true"></i>
         </button>
         &nbsp;
-        <button class="btn btn-primary" id="goto-last">
+        <button class="btn btn-primary" id="goto-last" data-toggle="tooltip" data-delay="500" data-html="true" title="Go to End (<strong>E</strong>)">
           <i class="fa fa-fast-forward" aria-hidden="true"></i>
         </button>
         &nbsp;
@@ -63,6 +63,10 @@
             <a class="dropdown-item fps" href="#">200FPS</a>
           </div>
         </div>
+        &nbsp;
+        <button type="button" class="btn btn-secondary" data-toggle="popover" data-placement="bottom" data-html="true" data-content="<h6>Graham's Scan</h6><p>Radu Ciurlea / ID / ianuarie 2018<br><a href=&quot;mailto:raduciurlea@gmail.com&quot;>raduciurlea@gmail.com</a></p>">
+          <i class="fa fa-info-circle" aria-hidden="true"></i>
+        </button>
       </div>
     </div>
     <div id="canvas-container">
